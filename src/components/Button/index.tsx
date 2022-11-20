@@ -1,18 +1,22 @@
 
-import React, { useState } from "react";
+import React, { HTMLAttributes, PropsWithChildren, useState } from "react";
 import classNames from "classnames";
 import styles from "./styles.module.scss";
 
-interface Props {
+import { useAppDispatch, useAppSelector } from "@hooks";
+import { increment } from "@reducers/movies";
+
+interface IProps extends PropsWithChildren, HTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
 }
 
-export const Button = ({ children }: Props) => {
-    const [count, setCount] = useState(0)
+export const Button = ({ children }: IProps) => {
+    const dispatch = useAppDispatch()
+    const count = useAppSelector((state) => state.counter.value)
 
     return (
         <button className={classNames(styles.button)}
-            onClick={() => setCount((count) => count + 1)}
+            onClick={() => dispatch(increment())}
         >
             {children} {count}
         </button>
