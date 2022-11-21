@@ -16,7 +16,7 @@
     @include media-lg {
         grid-template-columns: repeat(4, 1fr);
     }
-    
+
     .gridItem {
         display: flex;
         flex-direction: column;
