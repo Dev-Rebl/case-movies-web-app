@@ -1,32 +1,22 @@
 import './styles/main.scss'
-import { Button } from '@components/Button'
-import { useAppSelector } from '@hooks'
-import { useGetUpcomingMoviesQuery } from '@services/moviedb'
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
+import { HomePage, MovieDetailPage, ErrorPage } from '@components/pages';
+import { Layout } from '@components/layout';
 
 const App = () => {
-  const currentPage = useAppSelector((state) => state.counter.value)
-
-  const {
-    data,
-    error,
-    isSuccess,
-    isFetching,
-  } = useGetUpcomingMoviesQuery(currentPage)
-
   return (
-    <>
-      <Button disabled={isSuccess && !data.has_more_pages || isFetching} >
-        page is
-      </Button>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
 
-      {isFetching ? 'loading...' : ''}
+        <Route path="/movie/:id" element={<MovieDetailPage />} />
 
-      {isSuccess ? data?.results?.map(upcomingMovie => (
-        <div key={upcomingMovie.id}>
-          {upcomingMovie.title}
-        </div>
-      )) : null}
-    </>
+        <Route path="*" element={<ErrorPage />} />
+      </Route>
+    </Routes>
   )
 }
 

@@ -31,7 +31,7 @@ export const movieApi = createApi({
       },
 
     }),
-    getMovieById: builder.query<IMovie, number>({
+    getMovieById: builder.query<IMovie, string | number>({
       query: (id) => `movie/${id}?api_key=${environment.API_KEY}`,
     }),
   }),
