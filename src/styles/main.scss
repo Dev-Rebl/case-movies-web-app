@@ -1,8 +1,15 @@
-@import "./reset.scss";
+@import "./resources/reset.scss";
 
-:root {
-    --black: #000;
-    --white: #FFF;
+@import "./resources/fonts.scss";
 
-    --primairy: hotpink
+@import "./resources/breakpoints";
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 16px;
+    font-size: 1.6rem;
+    font-family: 'Source Code Pro', 'sans-serif';
 }
