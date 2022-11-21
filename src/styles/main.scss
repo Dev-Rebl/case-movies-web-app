@@ -1,5 +1,7 @@
 @import "./resources/reset.scss";
 
+@import "./resources/colors.scss";
+
 @import "./resources/fonts.scss";
 
 @import "./resources/breakpoints";
@@ -11,5 +13,5 @@ html {
 body {
     font-size: 16px;
     font-size: 1.6rem;
-    font-family: 'Source Code Pro', 'sans-serif';
+    font-family: 'Source Sans Pro', 'sans-serif';
 }
