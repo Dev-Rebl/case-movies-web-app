@@ -1,4 +1,5 @@
 import { Button } from '@components/Button'
+import { Card, Grid } from '@components/general'
 import { useAppSelector } from '@hooks'
 import { useGetUpcomingMoviesQuery } from '@services/moviedb'
 import { useEffect } from 'react'
@@ -23,13 +24,19 @@ export const HomePage = () => {
 
             {isFetching ? 'loading...' : ''}
 
-            {isSuccess ? data?.results?.map(upcomingMovie => (
-                <div key={upcomingMovie.id}>
-                    <Link to={`/movie/${upcomingMovie.id}`}>
-                        {upcomingMovie.title}
-                    </Link>
-                </div>
-            )) : null}
+            {isSuccess ?
+                <Grid>
+                    {data?.results?.map((upcomingMovie, index) => (
+                        <Card key={upcomingMovie.id}
+                            title={upcomingMovie.title}
+                            alternativeTitle={JSON.stringify(upcomingMovie.genre_ids)}
+                            subtitle={`Release: ${upcomingMovie.release_date}`}
+                            image={`https://www.themoviedb.org/t/p/w440_and_h660_face${upcomingMovie.backdrop_path}`}
+                            to={`/movie/${upcomingMovie.id}`}
+                        />
+                    ))}
+                </Grid>
+                : null}
         </>
     )
 }

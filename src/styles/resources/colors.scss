@@ -1,17 +1,53 @@
+$colors: (
+    black: #000,
+    white: #FFF,
+
+    primairy: #FFC917,
+    secondary: #FFB10A,
+
+    accent-1: #17D8FF,
+    accent-2: #3EC24B,
+
+    dark-1: #333,
+
+    light-1: #FCFCFC,
+    light-2: #C2C2C2,
+    light-3: #ADADAD,
+);
+
+@function hexToRGB($hex) {
+    @return red($hex),
+    green($hex),
+    blue($hex);
+}
+
+@mixin generate_colors($colors) {
+
+    // Colors
+    @each $color,
+    $value in $colors {
+        @if str-slice(#{$value}, 1, 1)=="#" {
+            --#{$color}: #{$value};
+        }
+
+        @else {
+            --#{$color}: var(--#{$value});
+        }
+    }
+
+    // RGB Colors
+    @each $color,
+    $value in $colors {
+        @if str-slice(#{$value}, 1, 1)=="#" {
+            --RGB_#{$color}: #{hexToRGB($value)};
+        }
+
+        @else {
+            --RGB_#{$color}: var(--RGB_#{$value});
+        }
+    }
+}
 
 :root {
-    --black: #000;
-    --white: #FFF;
-
-    --primairy: #FFC917;
-    --secondary: #FFB10A;
-
-    --accent-1: #17D8FF;
-    --accent-2: #3EC24B;
-
-    --dark-1: #333;
-
-    --light-1: #FCFCFC;
-    --light-2: #C2C2C2;
-    --light-3: #ADADAD;
+    @include generate_colors($colors);
 }
