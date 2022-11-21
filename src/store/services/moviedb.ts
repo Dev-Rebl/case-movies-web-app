@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IMovie, IUpcomingResult, ITransformedUpcomingResult } from '@types'
+import { IMovie, IUpcomingResult, ITransformedUpcomingResult, IGenreResult, ITransformedGenreResult } from '@types'
 import { environment } from '@constants'
 
 export const movieApi = createApi({
@@ -34,11 +34,25 @@ export const movieApi = createApi({
     getMovieById: builder.query<IMovie, string | number>({
       query: (id) => `movie/${id}?api_key=${environment.API_KEY}`,
     }),
+    getGenres: builder.query<ITransformedGenreResult, void>({
+      query: () => `genre/movie/list?api_key=${environment.API_KEY}`,
+      transformResponse: ({ genres }: IGenreResult) => {
+        return {
+          genres: genres.reduce((acc, curr): any => {
+            return {
+              ...acc,
+              [curr.id]: curr
+            }
+          }, {})
+        }
+      },
+    }),
   }),
 
 })
 
 export const {
   useGetUpcomingMoviesQuery,
-  useGetMovieByIdQuery
+  useGetMovieByIdQuery,
+  useGetGenresQuery,
 } = movieApi
