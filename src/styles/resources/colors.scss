@@ -2,7 +2,7 @@ $colors: (
     'black': #000,
     'white': #FFF,
 
-    primairy: #FFC917,
+    primary: #FFC917,
     secondary: #FFB10A,
 
     accent-1: #17D8FF,
@@ -11,8 +11,9 @@ $colors: (
     dark-1: #333,
 
     light-1: #FCFCFC,
-    light-2: #C2C2C2,
-    light-3: #ADADAD,
+    light-2: #EDEDED,
+    light-3: #C2C2C2,
+    light-4: #ADADAD,
 );
 
 @function hexToRGB($hex) {

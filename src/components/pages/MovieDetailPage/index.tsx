@@ -14,8 +14,6 @@ export const MovieDetailPage = () => {
         <>
             {isFetching ? 'loading...' : ''}
 
-            {isSuccess ? <div key={data.id}>{data.title}</div> : null}
-
             <Header />
         </>
     );
