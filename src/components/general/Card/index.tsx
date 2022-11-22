@@ -4,6 +4,9 @@ import styles from './styles.module.scss';
 import { Link, To } from 'react-router-dom';
 import React from 'react';
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/opacity.css';
+
 interface IProps extends HTMLAttributes<HTMLAnchorElement>, React.Attributes {
     title: string;
     subtitle: string;
@@ -21,7 +24,8 @@ export const Card = React.forwardRef<HTMLAnchorElement, IProps>(({ title, subtit
                 [className as string]: !!className,
             })}
         >
-            {!!image && <img className={styles.image} src={image} alt={title} loading="lazy" />}
+            
+            {!!image && <LazyLoadImage className={styles.image} src={image} alt={title} effect='opacity' />}
 
             <div className={styles.content}>
                 {!!alternativeTitle && (
