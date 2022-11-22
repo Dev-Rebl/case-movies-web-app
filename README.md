@@ -74,13 +74,13 @@ Open [ http://localhost:4173/]( http://localhost:4173/) with your browser to see
 -----
 
 ## Homepage:
-![Homepage](/screenshots/images/homepage.png)
+![Homepage](/screenshots/homepage.png)
 
 ## Detailpage:
-![Detailpage](/screenshots/images/detailpage.png)
+![Detailpage](/screenshots/detailpage.png)
 
 ## Searchpage:
-![Searchpage](/screenshots/images/searchpage.png)
+![Searchpage](/screenshots/searchpage.png)
 
 ## Errorpage:
-![Errorpage](/screenshots/images/errorpage.png)
+![Errorpage](/screenshots/errorpage.png)
