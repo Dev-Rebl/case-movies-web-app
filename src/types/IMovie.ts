@@ -3,7 +3,7 @@ export interface IMovie {
     backdrop_path: string | null;
     belongs_to_collection: object | null
     budget: number;
-    genre_ids: {
+    genres: {
         id: number;
         name: string;
     }[];

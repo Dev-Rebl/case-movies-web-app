@@ -1,0 +1,121 @@
+@import '@styles/resources/breakpoints';
+
+.header {
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    padding: 2.4rem;
+    position: relative;
+    background-color: var(--black);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @include media-md {
+        padding: 4rem;
+    }
+
+    @include media-lg {
+        padding: 8rem;
+    }
+
+    .coverImage {
+        width: 100%;
+        height: 100vh;
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(180deg, transparent, rgba(var(--RGB_dark-1), 0.8));
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .topContent,
+    .bottomContent {
+        z-index: 1;
+        position: relative;
+    }
+
+    .topContent {
+        padding-bottom: 4rem;
+        border-bottom: 0.1rem solid rgba(var(--RGB_light-2), 0.2);
+    }
+
+    .bottomContent {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2.4rem;
+        padding-top: 12rem;
+
+        @include media-lg {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .generalInfo {
+        display: flex;
+    }
+
+    .infoWrapper {
+        display: flex;
+        flex-direction: column;
+        margin-left: 1.6rem;
+        justify-content: space-between;
+
+        @include media-md {
+            margin-left: 3.2rem;
+        }
+    }
+
+    .poster {
+        border-radius: 0.4rem;
+        height: 16rem;
+        object-fit: contain;
+        transition: transform 400ms ease-in-out;
+
+        @include media-md {
+            height: 20rem;
+        }
+    }
+
+    .overview {
+        color: var(--light-2);
+        font-size: 1.6rem;
+        line-height: 1.5;
+        margin: 0 0 1.6rem;
+    }
+
+    .title {
+        margin: 0;
+        font-weight: 600;
+        font-size: 4rem;
+        color: var(--white);
+
+        @include media-md {
+            font-size: 5.6rem;
+        }
+
+        @include media-lg {
+            font-size: 8rem;
+        }
+    }
+
+    .releaseDate {
+        display: block;
+        font-size: 1.6rem;
+        margin: 0.8rem 0 0;
+        color: var(--light-2);
+    }
+}
