@@ -1,4 +1,4 @@
-export interface IUpcomingMovie {
+export interface IMovieListResult {
     poster_path: string | null;
     adult: boolean;
     overview: string;
@@ -12,5 +12,5 @@ export interface IUpcomingMovie {
     popularity: number;
     vote_count: number;
     video: boolean;
-    vore_average: number;
+    vote_average: number;
 }

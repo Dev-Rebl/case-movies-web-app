@@ -6,15 +6,11 @@ import { Header } from './Header';
 export const MovieDetailPage = () => {
     const { id } = useParams<'id'>();
 
-    const { data, error, isSuccess, isFetching } = useGetMovieByIdQuery(id || 0);
+    const { error } = useGetMovieByIdQuery(id || 0);
 
     if (error) return <ErrorPage />;
 
     return (
-        <>
-            {isFetching ? 'loading...' : ''}
-
-            <Header />
-        </>
+        <Header />
     );
 };

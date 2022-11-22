@@ -1,37 +1,38 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IMovie, IUpcomingResult, ITransformedUpcomingResult, IGenreResult, ITransformedGenreResult } from '@types'
-import { environment } from '@constants'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IMovie, IPaginatedResult, ITransformedPaginatedResult, IGenreResult, ITransformedGenreResult, ISearchQueryParams } from '@types';
+import { environment } from '@constants';
+import isEqual from 'lodash.isequal';
 
 export const movieApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://api.themoviedb.org/3',
     }),
     endpoints: (builder) => ({
-        getUpcomingMovies: builder.query<ITransformedUpcomingResult, number>({
+        getUpcomingMovies: builder.query<ITransformedPaginatedResult, number>({
             query: (page = 1) => `movie/upcoming?page=${page}&api_key=${environment.API_KEY}`,
-            transformResponse: ({ page, total_pages, results }: IUpcomingResult) => {
+            transformResponse: ({ page, total_pages, results }: IPaginatedResult) => {
                 return {
                     page,
                     results,
                     has_more_pages: page < total_pages,
-                }
+                };
             },
             serializeQueryArgs: ({ endpointName }) => {
-                return endpointName
+                return endpointName;
             },
             merge: (currentCache, newItems) => {
-                if(newItems.page > currentCache.page) {
+                if (newItems.page > currentCache.page) {
                     return {
                         ...currentCache,
                         ...newItems,
                         results: [...currentCache.results, ...newItems.results]
-                    }
+                    };
                 } else {
-                    return currentCache
+                    return currentCache;
                 }
             },
             forceRefetch({ currentArg, previousArg }) {
-                return currentArg !== previousArg
+                return currentArg !== previousArg;
             },
 
         }),
@@ -46,17 +47,49 @@ export const movieApi = createApi({
                         return {
                             ...acc,
                             [curr.id]: curr
-                        }
+                        };
                     }, {})
+                };
+            },
+        }),
+        searchMovie: builder.query<ITransformedPaginatedResult, ISearchQueryParams>({
+            query: ({ query = '', page = 1 }) => {
+                const encodedQuery = encodeURIComponent(query);
+                return `/search/movie/?query=${encodedQuery}&page=${page}&api_key=${environment.API_KEY}`;
+            },
+            transformResponse: ({ page, total_pages, results }: IPaginatedResult) => {
+                return {
+                    page,
+                    results,
+                    has_more_pages: page < total_pages,
+                };
+            },
+            serializeQueryArgs: ({ queryArgs }) => {
+                // serialize data based on query input
+                return queryArgs.query;
+            },
+            merge: (currentCache, newItems) => {
+                if (newItems.page > currentCache.page) {
+                    return {
+                        ...currentCache,
+                        ...newItems,
+                        results: [...currentCache.results, ...newItems.results]
+                    };
+                } else {
+                    return currentCache;
                 }
+            },
+            forceRefetch({ currentArg, previousArg }) {
+                return isEqual(currentArg?.query, previousArg?.query);
             },
         }),
     }),
 
-})
+});
 
 export const {
     useGetUpcomingMoviesQuery,
     useGetMovieByIdQuery,
     useGetGenresQuery,
-} = movieApi
+    useSearchMovieQuery,
+} = movieApi;

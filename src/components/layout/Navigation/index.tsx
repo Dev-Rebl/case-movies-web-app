@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import cx from 'classnames';
 import { ReactComponent as TMDBLogo } from '@/assets/tmdb.svg';
 import { ReactComponent as Cross } from '@/assets/icons/cross.svg';
+import { ReactComponent as SearchIcon } from '@/assets/icons/search.svg';
 
 export const Navigation = () => {
     return (
@@ -12,6 +13,17 @@ export const Navigation = () => {
             </Link>
 
             <ul className={styles.list}>
+                <li className={styles.listItem}>
+                    <NavLink to="/search"
+                        className={({ isActive }) => cx(styles.link, {
+                            [styles.active]: isActive
+                        })}
+                    >
+                        <SearchIcon className={styles.listItemIcon} />
+                        <span>Search</span>
+                    </NavLink>
+                </li>
+
                 <li className={styles.listItem}>
                     <NavLink to="/nothing-here"
                         className={({ isActive }) => cx(styles.link, {

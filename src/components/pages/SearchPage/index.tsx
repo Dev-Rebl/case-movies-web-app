@@ -1,19 +1,40 @@
 import { createImageUrl, getGenreNames } from '@/utils';
 import { Card, Grid } from '@components/general';
-import { useGetGenresQuery, useGetUpcomingMoviesQuery } from '@services/moviedb';
-import { useEffect, useRef, useState } from 'react';
+import { useGetGenresQuery, useSearchMovieQuery } from '@services/moviedb';
+import debounce from 'lodash.debounce';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Header } from './Header';
 
-export const HomePage = () => {
+export const SearchPage = () => {
     const lastCardRef = useRef<HTMLAnchorElement>(null);
     const intersectionObserverRef = useRef<IntersectionObserver>();
-
+    const [search, setSearch] = useSearchParams('');
     const [currentPage, setCurrentPage] = useState(1);
-    const { data, isSuccess, isFetching } = useGetUpcomingMoviesQuery(currentPage);
 
+    const query = useMemo(() => {
+        return search.get('query') || ''
+    }, [search])
+
+    const { data, isSuccess, isFetching } = useSearchMovieQuery({ query: query, page: currentPage });
     const { data: genreData, isSuccess: genreSucces } = useGetGenresQuery();
 
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch({ query: e.target.value });
+    };
+
+    const debouncedChangeHandler = useMemo((
+        () => debounce(changeHandler, 300)
+    ), []);
+
+    useEffect(() => {
+        return () => {
+            debouncedChangeHandler.cancel();
+        };
+    });
 
     // Start Infinite scrolling logic
+    
     const callbackFunction = (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries;
 
@@ -49,10 +70,14 @@ export const HomePage = () => {
             setCurrentPage(data.page);
         }
     }, [data, currentPage]);
+
     // End Infinite scrolling logic
+
 
     return (
         <>
+            <Header handleChange={debouncedChangeHandler} defaultValue={query} />
+
             {isSuccess ? (
                 <Grid>
                     {data?.results?.map((upcomingMovie, index) => {
@@ -69,7 +94,7 @@ export const HomePage = () => {
                         return (
                             <Card
                                 ref={isLastItem ? lastCardRef : null}
-                                key={upcomingMovie.id}
+                                key={`${upcomingMovie.id}_${index}`}
                                 title={upcomingMovie.title}
                                 alternativeTitle={genresString}
                                 subtitle={`Release: ${upcomingMovie.release_date}`}

@@ -1,8 +1,8 @@
-import { IUpcomingMovie } from "./IUpcomingMovie";
+import { IMovieListResult } from "./IMovieListResult";
 
-export interface IUpcomingResult {
+export interface IPaginatedResult {
     page: number;
-    results: IUpcomingMovie[];
+    results: IMovieListResult[];
     dates: {
         maximum: string;
         minimum: string;
