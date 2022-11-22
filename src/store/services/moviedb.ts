@@ -20,10 +20,14 @@ export const movieApi = createApi({
                 return endpointName
             },
             merge: (currentCache, newItems) => {
-                return {
-                    ...currentCache,
-                    ...newItems,
-                    results: [...currentCache.results, ...newItems.results]
+                if(newItems.page > currentCache.page) {
+                    return {
+                        ...currentCache,
+                        ...newItems,
+                        results: [...currentCache.results, ...newItems.results]
+                    }
+                } else {
+                    return currentCache
                 }
             },
             forceRefetch({ currentArg, previousArg }) {

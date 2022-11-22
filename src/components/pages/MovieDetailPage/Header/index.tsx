@@ -31,11 +31,11 @@ export const Header = ({ className }: IProps) => {
 
             <div className={styles.bottomContent}>
                 <div className={styles.generalInfo}>
-                    <img
+                    {data?.poster_path && <img
                         className={styles.poster}
                         src={`https://www.themoviedb.org/t/p/w440_and_h660_face${data?.poster_path}`}
                         alt={data?.title}
-                    />
+                    />}
                     <div className={styles.infoWrapper}>
                         <p className={styles.overview}>{data?.overview}</p>
                         <span className={styles.genres}>
