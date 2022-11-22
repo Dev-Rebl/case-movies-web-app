@@ -72,7 +72,7 @@ Open [ http://localhost:4173/]( http://localhost:4173/) with your browser to see
   - used for typescript path aliases
   
 -----
-
+Design based on [this Behance project](https://www.behance.net/gallery/17973235/Prototype-and-new-concept-design-for-IMDb?tracking_source=search_projects_appreciations%7Cimdb+redesign).
 ## Homepage:
 ![Homepage](/screenshots/homepage.png)
 
