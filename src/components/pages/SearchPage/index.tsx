@@ -1,5 +1,6 @@
 import { createImageUrl, getGenreNames } from '@/utils';
 import { Card, Grid } from '@components/general';
+import { useInfiniteScroll } from '@hooks';
 import { useGetGenresQuery, useSearchMovieQuery } from '@services/moviedb';
 import debounce from 'lodash.debounce';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -7,8 +8,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Header } from './Header';
 
 export const SearchPage = () => {
-    const lastCardRef = useRef<HTMLAnchorElement>(null);
-    const intersectionObserverRef = useRef<IntersectionObserver>();
     const [search, setSearch] = useSearchParams('');
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -18,6 +17,15 @@ export const SearchPage = () => {
 
     const { data, isSuccess, isFetching } = useSearchMovieQuery({ query: query, page: currentPage });
     const { data: genreData, isSuccess: genreSucces } = useGetGenresQuery();
+
+    const lastCardRef = useInfiniteScroll<HTMLAnchorElement>({
+        observeWhen: !isFetching,
+        onIntersect() {
+            if (isSuccess) {
+                setCurrentPage((prev) => data.has_more_pages ? prev + 1 : prev);
+            }
+        },
+    });
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch({ query: e.target.value });
@@ -33,46 +41,12 @@ export const SearchPage = () => {
         };
     });
 
-    // Start Infinite scrolling logic
-    
-    const callbackFunction = (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries;
-
-        if (entry.isIntersecting) {
-            if (lastCardRef.current) {
-                intersectionObserverRef.current?.unobserve(lastCardRef.current);
-            }
-
-            if (isSuccess) {
-                setCurrentPage((prev) => data.has_more_pages ? prev + 1 : prev);
-            }
-        }
-    };
-
-    useEffect(() => {
-        if (!isFetching) {
-            intersectionObserverRef.current = new IntersectionObserver(callbackFunction, {
-                rootMargin: "0px 0px 200px 0px",
-                threshold: 1
-            });
-            if (lastCardRef.current) intersectionObserverRef.current.observe(lastCardRef.current);
-        }
-
-        return () => {
-            if (lastCardRef.current) intersectionObserverRef.current?.unobserve(lastCardRef.current);
-        };
-
-    }, [lastCardRef, isFetching]);
-
     // allign the currentPage with the page value of the data
     useEffect(() => {
         if (data?.page && data.page > currentPage) {
             setCurrentPage(data.page);
         }
     }, [data, currentPage]);
-
-    // End Infinite scrolling logic
-
 
     return (
         <>

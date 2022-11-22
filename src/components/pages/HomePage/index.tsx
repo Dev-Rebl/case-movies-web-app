@@ -1,47 +1,23 @@
 import { createImageUrl, getGenreNames } from '@/utils';
 import { Card, Grid } from '@components/general';
+import { useInfiniteScroll } from '@hooks';
 import { useGetGenresQuery, useGetUpcomingMoviesQuery } from '@services/moviedb';
 import { useEffect, useRef, useState } from 'react';
 
 export const HomePage = () => {
-    const lastCardRef = useRef<HTMLAnchorElement>(null);
-    const intersectionObserverRef = useRef<IntersectionObserver>();
-
     const [currentPage, setCurrentPage] = useState(1);
     const { data, isSuccess, isFetching } = useGetUpcomingMoviesQuery(currentPage);
 
     const { data: genreData, isSuccess: genreSucces } = useGetGenresQuery();
 
-
-    // Start Infinite scrolling logic
-    const callbackFunction = (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries;
-
-        if (entry.isIntersecting) {
-            if (lastCardRef.current) {
-                intersectionObserverRef.current?.unobserve(lastCardRef.current);
-            }
-
+    const lastCardRef = useInfiniteScroll<HTMLAnchorElement>({
+        observeWhen: !isFetching,
+        onIntersect() {
             if (isSuccess) {
                 setCurrentPage((prev) => data.has_more_pages ? prev + 1 : prev);
             }
-        }
-    };
-
-    useEffect(() => {
-        if (!isFetching) {
-            intersectionObserverRef.current = new IntersectionObserver(callbackFunction, {
-                rootMargin: "0px 0px 200px 0px",
-                threshold: 1
-            });
-            if (lastCardRef.current) intersectionObserverRef.current.observe(lastCardRef.current);
-        }
-
-        return () => {
-            if (lastCardRef.current) intersectionObserverRef.current?.unobserve(lastCardRef.current);
-        };
-
-    }, [lastCardRef, isFetching]);
+        },
+    });
 
     // allign the currentPage with the page value of the data
     useEffect(() => {
@@ -49,7 +25,6 @@ export const HomePage = () => {
             setCurrentPage(data.page);
         }
     }, [data, currentPage]);
-    // End Infinite scrolling logic
 
     return (
         <>
