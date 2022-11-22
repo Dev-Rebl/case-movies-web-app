@@ -7,6 +7,7 @@ import { Pill } from '@components/general';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
+import { createImageUrl } from '@utils';
 
 interface IProps extends HTMLAttributes<HTMLDivElement> { }
 
@@ -24,7 +25,7 @@ export const Header = ({ className }: IProps) => {
                 {data.backdrop_path && <LazyLoadImage
                     className={styles.coverImage}
                     effect='opacity'
-                    src={`https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${data.backdrop_path}`}
+                    src={createImageUrl.backdrop(data.backdrop_path)}
                     alt={`${data.title} cover`}
                     delayTime={300}
                 />}

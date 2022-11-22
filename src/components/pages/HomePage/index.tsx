@@ -1,4 +1,4 @@
-import { getGenreNames } from '@/utils';
+import { createImageUrl, getGenreNames } from '@/utils';
 import { Card, Grid } from '@components/general';
 import { useGetGenresQuery, useGetUpcomingMoviesQuery } from '@services/moviedb';
 import { useEffect, useRef, useState } from 'react';
@@ -60,6 +60,9 @@ export const HomePage = () => {
                                 ? getGenreNames(upcomingMovie.genre_ids, genreData.genres).join(' · ')
                                 : '';
 
+                        const imageUrl = createImageUrl.poster(upcomingMovie.poster_path)
+                            || createImageUrl.backdrop(upcomingMovie.backdrop_path);
+
                         return (
                             <Card
                                 ref={isLastItem ? lastCardRef : null}
@@ -67,7 +70,7 @@ export const HomePage = () => {
                                 title={upcomingMovie.title}
                                 alternativeTitle={genresString}
                                 subtitle={`Release: ${upcomingMovie.release_date}`}
-                                image={upcomingMovie.poster_path && `https://www.themoviedb.org/t/p/w440_and_h660_face${upcomingMovie.poster_path}`}
+                                image={imageUrl}
                                 to={`/movie/${upcomingMovie.id}`}
                             />
                         );
