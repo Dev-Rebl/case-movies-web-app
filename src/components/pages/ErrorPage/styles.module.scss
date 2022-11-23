@@ -1,0 +1,55 @@
+@import '@styles/resources/breakpoints';
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: linear-gradient(180deg, transparent, rgba(var(--RGB_dark-1), 0.8));
+    padding: 2.4rem;
+
+    @include media-md {
+        padding: 4rem;
+    }
+
+    @include media-lg {
+        padding: 8rem;
+    }
+    
+    .wrapper {
+        width: 100%;
+        text-align: center;
+    }
+
+    .title {
+        color: var(--primary);
+        font-size: 4rem;
+
+        @include media-md {
+            font-size: 5.6rem;
+        }
+
+        @include media-lg {
+            font-size: 8rem;
+        }
+    }
+
+    .text {
+        font-size: 2rem;
+
+        @include media-md {
+            font-size: 2.4rem;
+        }
+
+        @include media-lg {
+            font-size: 3.2rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+}

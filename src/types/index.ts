@@ -1,0 +1,7 @@
+export * from './IMovie'
+export * from './IMovieListResult'
+export * from './IPaginatedResult'
+export * from './ITransformedPaginatedResult'
+export * from './IGenreResult'
+export * from './ITransformedGenreResult'
+export * from './ISearchQueryParams'

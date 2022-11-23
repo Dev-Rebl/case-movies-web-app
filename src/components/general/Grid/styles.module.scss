@@ -1,0 +1,24 @@
+@import '@styles/resources/breakpoints';
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
+
+    @include media-sm {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media-md {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include media-lg {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .gridItem {
+        display: flex;
+        flex-direction: column;
+    }
+}
